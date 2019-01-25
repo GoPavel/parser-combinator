@@ -1,0 +1,26 @@
+{-# LANGUAGE UnicodeSyntax #-}
+{-# LANGUAGE LambdaCase #-}
+
+module Main where
+
+import Grammar
+import GrammarParser
+import GrammarLexer
+
+parseGrammar str = case parseGrammarFromToken $ alexScanTokens str of
+  Right a -> a
+  Left a -> error a
+
+testInputFile =  "tests/testGrammars/ParserABC.y"
+testOutputFile = "tests/testGrammars/ParserABC.hs"
+debugPrintFile = "debug.info"
+
+main ∷ IO()
+main = do
+  grammarFile <- readFile testInputFile
+  writeFile debugPrintFile ("\n>>> grammarFilen\n" ++ grammarFile)
+  let tokens = alexScanTokens grammarFile
+  appendFile debugPrintFile ("\n>>> tokens\n" ++ show tokens)
+  let grammar = either error id $ parseGrammarFromToken tokens
+  appendFile debugPrintFile ("\n>>> grammar\n" ++ show grammar)
+  codegeneration testOutputFile grammar

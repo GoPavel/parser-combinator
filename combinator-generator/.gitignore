@@ -1,0 +1,6 @@
+dist
+GrammarLexer.hs
+GrammarParser.hs
+*.info
+*.hi
+*.o
