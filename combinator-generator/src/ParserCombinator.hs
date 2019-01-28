@@ -8,8 +8,13 @@ import Data.Function
 
 newtype Parser s t = Parser { runP ∷ [s] → [(t, [s])] }
 
-parseStrict ∷ Parser s t → [s] → t
-parseStrict p inp = fst . head $ runP p inp
+runParserEither ∷ Parser s t → [s] → Either String t
+runParserEither p inp = case runParserFull p inp of
+  [] -> Left "parse error"
+  x:_ -> Right x
+
+runParserFull ∷ Parser s t → [s] → [t]
+runParserFull p inp = map fst $ takeWhile (\(t, inp') -> null inp') $ runP p inp
 
 pFail ∷ Parser s t
 pFail =  Parser { runP = const [] }

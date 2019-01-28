@@ -3,9 +3,9 @@
 
 module Main where
 
-import Grammar
-import GrammarParser
-import GrammarLexer
+import GrammarParser (parseGrammarFromToken)
+import GrammarLexer (alexScanTokens)
+import ParserGenerator (codegeneration)
 
 parseGrammar str = case parseGrammarFromToken $ alexScanTokens str of
   Right a -> a

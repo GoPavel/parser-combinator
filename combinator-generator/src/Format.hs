@@ -9,9 +9,10 @@ import Control.Applicative
 format = flip format'
 
 format' ∷ String → [String] → String
-format' (s:ss) xs | s == '$' = case head $ runP (parseDigit xs) ss of
-  (val, ss') -> xs !! val ++ format' ss' xs
-                 | otherwise = s : format' ss xs
+format' (s:ss) xs | s == '$' = case runP (parseDigit xs) ss of
+  (val, ss'):_ -> xs !! val ++ format' ss' xs
+  [] -> format' ss xs
+                  | otherwise = s : format' ss xs
 format' [] xs = []
 
 parseDigit ∷ [String] → Parser Char Int
