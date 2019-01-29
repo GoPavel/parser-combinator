@@ -1,8 +1,7 @@
 {
-module ABCParser (parse) where
+module ParserABC (parse) where
 
 import LexerABC
-import ParserCombinator
 }
 
 %tokentype{TokenABC}

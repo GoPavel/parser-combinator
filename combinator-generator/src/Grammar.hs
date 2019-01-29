@@ -18,8 +18,8 @@ data NonterminalDefinition = NonterminalDefinition {
 data Grammar = Grammar {
   startedCode ∷ Code,
   tokenType ∷ Code,
-  tokens ∷ [(String, Code)],
-  attributes ∷ [(Code, Code)],
+  tokens ∷ [(Name, Code)],
+  attributes ∷ [(Code, Code, Code)],
   nonterminalDefinitions ∷ [NonterminalDefinition],
   endedCode ∷ Code
 } deriving (Show)

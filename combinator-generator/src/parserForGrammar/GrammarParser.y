@@ -50,12 +50,12 @@ TokenDefinitions :: {[(String, Code)]}
 TokenDefinition :: {(String, Code)}
   : "%token" word Code                 { ($2, $3)}
 
-Attributes :: {[(Code, Code)]}
+Attributes :: {[(Code, Code, Code)]}
   : Attribute Attributes               { $1 : $2 }
   |                                    { [] }
 
-Attribute :: {(Code, Code)}
-  : "%attribute" Code Code             { ($2, $3) }
+Attribute :: {(Code, Code, Code)}
+  : "%attribute" Code Code Code            { ($2, $3, $4) }
 
 NonterminalDefinitions :: {[NonterminalDefinition]}
   : NonterminalDefinition NonterminalDefinitions { $1 : $2 }

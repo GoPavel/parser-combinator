@@ -11,8 +11,8 @@ parseGrammar str = case parseGrammarFromToken $ alexScanTokens str of
   Right a -> a
   Left a -> error a
 
-testInputFile =  "tests/testGrammars/ParserABC.y"
-testOutputFile = "tests/testGrammars/ParserABC.hs"
+testInputFile =  "tests/testGrammars/Calc/Parser.y"
+testOutputFile = "tests/testGrammars/Calc/Parser.hs"
 debugPrintFile = "debug.info"
 
 main ∷ IO()

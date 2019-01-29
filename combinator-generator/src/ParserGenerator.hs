@@ -14,6 +14,7 @@ codegeneration filePath grammar = do
   appendFile' "{-# LANGUAGE LambdaCase #-}\n"
   appendFile' $ startedCode grammar
   appendFile' "import Control.Applicative\n"
+  appendFile' "import ParserCombinator\n"
   appendFile' "\n"
   generateAttrDefinition (attributes grammar)
   appendFile' "\n"
@@ -24,7 +25,7 @@ codegeneration filePath grammar = do
   appendFile' "\n"
   appendFile' $ intercalate "\n" $ map generateHandleTerminal (tokens grammar)
   appendFile' "\n"
-  appendFile' "handleTerm term = undefined\n"
+  appendFile' "handleTerm term = error \"terminal has no attributes\"\n"
   appendFile' "\n"
   appendFile' generateParseFunction
   appendFile' "\n"
@@ -38,16 +39,16 @@ codegeneration filePath grammar = do
     terminals ∷ [String]
     terminals = map fst (tokens grammar)
 
-    generateAttrDefinition ∷ [(Code, Code)] → IO()
+    generateAttrDefinition ∷ [(Code, Code, Code)] → IO()
     generateAttrDefinition [] = return ()
     generateAttrDefinition attrs = do
       appendFile' "data Attr = Attr {\n"
-      appendFile' $ intercalate ",\n" $ map (\(n, t) -> "  " ++ n ++ " :: " ++ t) attrs
+      appendFile' $ intercalate ",\n" $ map (\(n, t, _) -> "  " ++ n ++ " :: " ++ t) attrs
       appendFile' "\n"
       appendFile' "}\n"
       appendFile' "emptyAttr :: Attr\n"
       appendFile' $ "emptyAttr = Attr {"
-                ++  intercalate ", " (map (\(n, t) -> n ++ " = error \"undefined attr\"") attrs)
+                ++  intercalate ", " (map (\(n, t, deflt) -> n ++ " = " ++  deflt) attrs)
                 ++  "}"
       appendFile' "\n"
 
